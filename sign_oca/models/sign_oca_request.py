@@ -328,11 +328,24 @@ class SignOcaRequest(models.Model):
             .create(self._set_action_log_vals(action, **kwargs))
         )
 
+    @api.model
+    def notify_changes(self, partner_recs):
+        # send notification to the list of subscribers
+        partner_list_ids = partner_recs.mapped("id")
+        for partner_id in partner_list_ids:
+            self.env["bus.bus"]._sendone(
+                "broadcast",
+                f"sign_oca_request_updates_{partner_id}",
+                {"message": "Sign OCA Requests Model updated"},
+            )
+
     @api.model_create_multi
     def create(self, vals_list):
         records = super().create(vals_list)
         for record in records:
             record._set_action_log("create")
+            partner_recs = record.signer_ids.mapped("partner_id")
+            self.notify_changes(partner_recs)
         return records
 
 

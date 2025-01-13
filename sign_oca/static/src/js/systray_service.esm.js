@@ -15,25 +15,13 @@ export class SignerMenuView extends Component {
         this.discussSystray = useDiscussSystray();
         this.orm = useService("orm");
         this.action = useService("action");
+        this.watchSignRequests = useService("watchSignRequests");
         this.state = useState({
-            signerGroups: [],
-            signerCounter: 0,
+            sign_requests: this.watchSignRequests.sign_requests,
         });
         onMounted(async () => {
-            await this.fetchSystraySigner();
+            await this.watchSignRequests.fetchSystraySigner();
         });
-    }
-    async fetchSystraySigner() {
-        const groups = await this.orm.call("res.users", "sign_oca_request_user_count");
-        let total = 0;
-        for (const group of groups) {
-            total += group.total_records || 0;
-        }
-        this.state.signerCounter = total;
-        this.state.signerGroups = groups;
-    }
-    async onBeforeOpen() {
-        await this.fetchSystraySigner();
     }
     availableViews() {
         return [

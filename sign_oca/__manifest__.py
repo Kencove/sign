@@ -9,7 +9,7 @@
     "license": "AGPL-3",
     "author": "Dixmit,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/sign",
-    "depends": ["web_editor", "portal", "base_sparse_field"],
+    "depends": ["web_editor", "portal", "base_sparse_field", "bus"],
     "data": [
         "security/security.xml",
         "views/menu.xml",
@@ -48,6 +48,7 @@
             "sign_oca/static/src/elements/signature.esm.js",
             "sign_oca/static/src/elements/check.esm.js",
             "sign_oca/static/src/components/sign_oca_pdf/sign_oca_pdf.esm.js",
+            "sign_oca/static/src/js/sign_requests_service.esm.js",
             "sign_oca/static/src/js/sign_oca.esm.js",
             "sign_oca/static/src/js/systray_service.esm.js",
             "sign_oca/static/src/xml/*.xml",
