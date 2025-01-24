@@ -1,0 +1,43 @@
+<!-- Copyright 2025 Kencove
+License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <template id="sign_requests" name="Sign Requests List">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True" />
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Your Documents to be Signed</t>
+            </t>
+            <div t-if="not sign_requests" class="alert alert-warning" role="alert">
+                There are currently no sign requests for your account.
+            </div>
+            <t t-if="sign_requests" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th>
+                            <span class='d-none d-md-inline'>Sign Request #</span>
+                            <span class='d-block d-md-none'>Ref.</span>
+                        </th>
+                        <th class="text-end">To be Signed</th>
+                    </tr>
+                </thead>
+                <t t-foreach="sign_requests" t-as="sign_request">
+                    <tr>
+                        <td>
+                            <a t-att-href="sign_request.get_portal_url()">
+                                <t t-out="sign_request.request_id.name" />
+                            </a>
+                        </td>
+                        <td class="text-end">
+                            <span
+                                t-if="sign_request.request_id.to_sign"
+                                t-out="'Yes'"
+                            />
+                            <span t-else="" t-out="'No'" />
+                        </td>
+                    </tr>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

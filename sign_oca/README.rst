@@ -111,6 +111,12 @@ Sign from template
 - Some extra modules (e.g. maintenance_sign_oca) will automatically set
   the signers for each request.
 
+Sign from portal
+----------------
+
+- customers who are using portal can sign their documents from portal
+  directly in addition to being able to sign them from emails.
+
 Known issues / Roadmap
 ======================
 

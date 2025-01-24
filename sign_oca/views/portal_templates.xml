@@ -1,0 +1,47 @@
+<!-- Copyright 2025 Kencove
+License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <template
+        id="portal_my_home_menu_sign"
+        name="Portal layout : sign_requests menu entries"
+        inherit_id="portal.portal_breadcrumbs"
+        priority="50"
+    >
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li
+                id="portal_breadcrumbs_sign"
+                t-if="page_name == 'My Sign Requests' or sign_requests"
+                t-attf-class="breadcrumb-item #{'active 'if not sign_requests else ''}"
+            >
+                <a
+                    t-if="sign_requests"
+                    t-attf-href="/my/sign_requests?{{ keep_query() }}"
+                >Sign Requests</a>
+                <t t-else="">Sign Requests</t>
+            </li>
+        </xpath>
+    </template>
+
+    <template
+        id="portal_my_home"
+        inherit_id="portal.portal_my_home"
+        priority="100"
+        name="Portal layout : sign_requests button"
+        customize_show="True"
+    >
+        <div id="portal_common_category" position="after">
+            <div class="o_portal_category row g-2 mt-3" id="portal_sign_category">
+                <t t-call="portal.portal_docs_entry">
+                    <t
+                        t-set="icon"
+                        t-value="'/web/static/img/mimetypes/document.svg'"
+                    />
+                    <t t-set="title">Your Documents to be Signed</t>
+                    <t t-set="url" t-value="'/my/sign_requests'" />
+                    <t t-set="text">View, or sign documents</t>
+                    <t t-set="placeholder_count" t-value="'sign_oca_count'" />
+                </t>
+            </div>
+        </div>
+    </template>
+</odoo>
