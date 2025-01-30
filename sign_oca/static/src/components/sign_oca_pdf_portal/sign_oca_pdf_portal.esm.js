@@ -8,6 +8,7 @@ import SignOcaPdf from "../sign_oca_pdf/sign_oca_pdf.esm.js";
 import {getTemplate} from "@web/core/templates";
 import {MainComponentsContainer} from "@web/core/main_components_container";
 import {rpc} from "@web/core/network/rpc";
+import {startSignItemNavigator} from "./sign_oca_navigator.esm";
 
 export class SignOcaPdfPortal extends SignOcaPdf {
     setup() {
@@ -36,6 +37,8 @@ export class SignOcaPdfPortal extends SignOcaPdf {
     postIframeFields() {
         super.postIframeFields(...arguments);
         this.checkFilledAll();
+        // Load navigator
+        this.navigate();
     }
     async _onClickSign(ev) {
         ev.target.disabled = true;
@@ -52,6 +55,15 @@ export class SignOcaPdfPortal extends SignOcaPdf {
                 window.location = action.url;
             } else {
                 window.location.reload();
+            }
+        });
+    }
+    navigate() {
+        const target = this.iframe.el.contentDocument.getElementById("viewerContainer");
+        this.navigator = startSignItemNavigator(this, target, this.env);
+        target.addEventListener("scroll", () => {
+            if (!this.navigator.state.isScrolling && this.navigator.state.started) {
+                this.navigator.setTip(_t("next"));
             }
         });
     }
