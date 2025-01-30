@@ -5,6 +5,7 @@ import {Component, onMounted, onWillStart, onWillUnmount, useRef} from "@odoo/ow
 import {AlertDialog} from "@web/core/confirmation_dialog/confirmation_dialog";
 import {renderToString} from "@web/core/utils/render";
 import {useService} from "@web/core/utils/hooks";
+import {startSignItemNavigator} from "./sign_oca_navigator.esm";
 
 export default class SignOcaPdfCommon extends Component {
     setup() {
@@ -104,6 +105,9 @@ export default class SignOcaPdfCommon extends Component {
             "sign_oca_ready"
         );
         this.iframeLoaded.resolve();
+        // Kobros
+        this.navigate();
+        //
     }
     postIframeField(item) {
         if (this.items[item.id]) {
@@ -122,6 +126,32 @@ export default class SignOcaPdfCommon extends Component {
         this.items[item.id] = signatureItem[0];
         return signatureItem;
     }
+
+    // Kobros
+    checkSignItemsCompletion() {
+        const signItemsToComplete = [];
+        $.each(this.info.items, (key) => {
+            const signItemToComplete = this.postIframeField(this.info.items[key]);
+            signItemsToComplete.push(signItemToComplete);
+        });
+        return signItemsToComplete;
+    }
+    navigate() {
+        const target = this.iframe.el.contentDocument.getElementById("viewerContainer");
+        this.navigator = startSignItemNavigator(
+            this,
+            target,
+            // I assume type is text but it can be many things
+            [{type_id: {item_type: "text"}}],
+            this.env
+        );
+        target.addEventListener("scroll", () => {
+            if (!this.navigator.state.isScrolling && this.navigator.state.started) {
+                this.navigator.setTip(_t("next"));
+            }
+        });
+    }
+    //
 }
 SignOcaPdfCommon.template = "sign_oca.SignOcaPdfCommon";
 SignOcaPdfCommon.props = [];

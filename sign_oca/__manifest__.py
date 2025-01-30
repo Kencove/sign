@@ -40,6 +40,9 @@
             "sign_oca/static/src/components/sign_oca_pdf/sign_oca_pdf.xml",
             "sign_oca/static/src/elements/elements.xml",
             "sign_oca/static/src/scss/sign_oca.scss",
+            # kobros
+            "sign_oca/static/src/components/sign_oca_pdf_common/sign_oca_navigator.esm.js",
+            #
             "sign_oca/static/src/components/sign_oca_pdf_common/sign_oca_pdf_common.esm.js",
             "sign_oca/static/src/components/sign_oca_configure/sign_oca_configure_field_dialog.esm.js",
             "sign_oca/static/src/components/sign_oca_configure/sign_oca_configure_field_dialog.xml",
@@ -79,6 +82,9 @@
             "sign_oca/static/src/components/sign_oca_pdf_portal/sign_oca_pdf_portal.xml",
             "sign_oca/static/src/elements/elements.xml",
             "sign_oca/static/src/scss/sign_oca.scss",
+            # kobros
+            "sign_oca/static/src/components/sign_oca_pdf_common/sign_oca_navigator.esm.js",
+            #
             "sign_oca/static/src/components/sign_oca_pdf_common/sign_oca_pdf_common.esm.js",
             "sign_oca/static/src/elements/text.esm.js",
             "sign_oca/static/src/elements/signature.esm.js",
