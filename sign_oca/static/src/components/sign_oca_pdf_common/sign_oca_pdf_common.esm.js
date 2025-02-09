@@ -103,6 +103,28 @@ export default class SignOcaPdfCommon extends Component {
         $(this.iframe.el.contentDocument.getElementById("viewer")).addClass(
             "sign_oca_ready"
         );
+
+        // Is essential to make sure the navigator will never duplicate
+        const target = $(
+            this.iframe.el.contentDocument.getElementById("viewerContainer")
+        );
+        const navigator = $(
+            this.iframe.el.contentDocument.getElementsByClassName(
+                "o_sign_sign_item_navigator"
+            )
+        );
+        const navLine = $(
+            this.iframe.el.contentDocument.getElementsByClassName(
+                "o_sign_sign_item_navline"
+            )
+        );
+        if (navLine.length === 0) {
+            target.append($("<div class='o_sign_sign_item_navline'/>"));
+        }
+        if (navigator.length === 0) {
+            target.append($("<div class='o_sign_sign_item_navigator'/>"));
+        }
+
         this.iframeLoaded.resolve();
     }
     postIframeField(item) {

@@ -61,11 +61,6 @@ export class SignOcaPdfPortal extends SignOcaPdf {
     navigate() {
         const target = this.iframe.el.contentDocument.getElementById("viewerContainer");
         this.navigator = startSignItemNavigator(this, target, this.env);
-        target.addEventListener("scroll", () => {
-            if (!this.navigator.state.isScrolling && this.navigator.state.started) {
-                this.navigator.setTip(_t("next"));
-            }
-        });
     }
 }
 SignOcaPdfPortal.template = "sign_oca.SignOcaPdfPortal";

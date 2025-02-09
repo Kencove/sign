@@ -22,13 +22,14 @@ export function startSignItemNavigator(parent, target, env) {
         started: false,
         isScrolling: false,
     };
+    const navigator = parent.iframe.el.contentDocument.getElementsByClassName(
+        "o_sign_sign_item_navigator"
+    )[0];
+    const navLine = parent.iframe.el.contentDocument.getElementsByClassName(
+        "o_sign_sign_item_navline"
+    )[0];
     const checkSignItemsCompletion = parent.checkSignItemsCompletion();
     let signItemsToComplete = checkSignItemsCompletion;
-
-    const navigator = document.createElement("div");
-    navigator.classList.add("o_sign_sign_item_navigator");
-    const navLine = document.createElement("div");
-    navLine.classList.add("o_sign_sign_item_navline");
 
     function _scrollToSignItemPromise(item) {
         return new Promise((resolve) => {
@@ -106,6 +107,8 @@ export function startSignItemNavigator(parent, target, env) {
     }
 
     function scrollToSignItem({el: item}) {
+        setTip(_t("Next"));
+
         _scrollToSignItemPromise(item).then(() => {
             // Define input to deal with input fields if present
             const input = item.querySelector("input");
@@ -130,12 +133,14 @@ export function startSignItemNavigator(parent, target, env) {
                 }
             }
             // Field can be signature div or anything else
-            else if (item.dataset.field) {
-                const clickableElement =
-                    item.firstChild && item.querySelector("div")
-                        ? item.firstChild
-                        : item;
-                clickableElement.click();
+            else if (
+                item.dataset.field &&
+                item.firstChild &&
+                item.querySelector("div")
+            ) {
+                setTip(_t("Click on item to ✒️"));
+                item.dispatchEvent(new Event("focus_signature"));
+                item.focus();
             } else {
                 item.focus();
             }
@@ -159,8 +164,6 @@ export function startSignItemNavigator(parent, target, env) {
         }
     }
 
-    target.append(navigator);
-    navigator.before(navLine);
     navigator.addEventListener("click", () => {
         if (checkSignItemsCompletion.length > 0) {
             goToNextSignItem();
@@ -175,6 +178,13 @@ export function startSignItemNavigator(parent, target, env) {
         navigator.style.display = force ? "" : "none";
         navLine.style.display = force ? "" : "none";
     }
+
+    // If the window is resized this function asks user to fill all fields again
+    const watch_navigator = () => {
+        signItemsToComplete = parent.checkSignItemsCompletion();
+        setTip(_t("Click to start"));
+    };
+    window.addEventListener("resize", watch_navigator);
 
     return {
         setTip,
