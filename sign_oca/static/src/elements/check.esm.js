@@ -53,8 +53,8 @@ const checkSignOca = {
         });
         return input;
     },
-    check: function () {
-        return true;
+    check: function (item) {
+        return Boolean(item.value);
     },
 };
 registry.category("sign_oca").add("check", checkSignOca);
