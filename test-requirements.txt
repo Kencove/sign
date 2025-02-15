@@ -1,0 +1,1 @@
+odoo-addon-account_avatax_exemption@git+https://github.com/OCA/account-fiscal-rule.git@refs/pull/375/head#subdirectory=setup/account_avatax_exemption
