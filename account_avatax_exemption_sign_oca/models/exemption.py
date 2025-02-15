@@ -1,7 +1,7 @@
 # Copyright 2023 ForgeFlow S.L. (http://www.forgeflow.com)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class ResPartnerExemption(models.Model):
@@ -9,8 +9,8 @@ class ResPartnerExemption(models.Model):
 
     sign_oca_request_id = fields.Many2one("sign.oca.request")
 
-    @api.depends("state")
-    def _cancel_sign_request_id(self):
-        for rec in self:
-            if rec.state == "cancel":
-                rec.sign_oca_request_id.cancel()
+    def write(self, vals):
+        if vals.get("state") == "cancel":
+            for record in self:
+                record.sign_oca_request_id.cancel()
+        return super().write(vals)
